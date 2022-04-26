@@ -1,4 +1,4 @@
-from downwardActionConstraints.FDgrounder import pddl
+from downward.FDgrounder import pddl
 import data_structures as ds
 SEPARATOR = '__'
 

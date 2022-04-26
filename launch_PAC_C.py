@@ -2,7 +2,7 @@ import os
 from os import path
 import click
 import time
-from downwardActionConstraints.FDgrounder import ground
+from downward.FDgrounder import ground
 import writer
 import PAC_C
 from converter import convert, get_all_atoms
