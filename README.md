@@ -4,7 +4,7 @@
 ```
 git clone https://github.com/LBonassi95/PAC-C
 cd PAC-C/
-git clone https://github.com/LBonassi95/downwardActionConstraints
+git clone https://github.com/LBonassi95/downward -b action-constraints
 ```
 
 ## Instructions
