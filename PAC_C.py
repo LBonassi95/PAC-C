@@ -322,45 +322,45 @@ def manage_pattern_compilation(gd1, monitoring_atoms, action):
                 action.effects.append(ds.Effect(ds.Literal(monitoring_atoms[i-1], False), ds.Literal(monitoring_atoms[i], False)))
 
 
-def pac_c(F, A, I, G, C):
-    normalize_constraints_formulae(C, A)
-    monitoring_atoms = get_monitoring_atoms(C)
-    A_prime = []
-    for action in A:
-        for c in C:
-            if c.kind == ds.ALWAYS:
-                manage_always_compilation(c.gd1, action)
-            elif c.kind == ds.ATMOSTONCE:
-                manage_amo_compilation(c.gd1, c.monitoring_atom, action)
-            elif c.kind == ds.SOMETIMEBEFORE:
-                manage_sb_compilation(c.gd1, c.gd2, c.monitoring_atom, action)
-            elif c.kind == ds.SOMETIME:
-                manage_sometime_compilation(c.gd1, c.monitoring_atom, action)
-            elif c.kind == ds.SOMETIMEAFTER:
-                manage_sa_compilation(c.gd1, c.gd2, c.monitoring_atom, action)
-            elif c.kind == ds.ALWAYSNEXT:
-                manage_ax_compilation(c.gd1, c.gd2, c.monitoring_atom, action)
-            elif c.kind == ds.PATTERN:
-                manage_pattern_compilation(c.gd1, c.monitoring_atoms, action)
+# def pac_c(F, A, I, G, C):
+#     normalize_constraints_formulae(C, A)
+#     monitoring_atoms = get_monitoring_atoms(C)
+#     A_prime = []
+#     for action in A:
+#         for c in C:
+#             if c.kind == ds.ALWAYS:
+#                 manage_always_compilation(c.gd1, action)
+#             elif c.kind == ds.ATMOSTONCE:
+#                 manage_amo_compilation(c.gd1, c.monitoring_atom, action)
+#             elif c.kind == ds.SOMETIMEBEFORE:
+#                 manage_sb_compilation(c.gd1, c.gd2, c.monitoring_atom, action)
+#             elif c.kind == ds.SOMETIME:
+#                 manage_sometime_compilation(c.gd1, c.monitoring_atom, action)
+#             elif c.kind == ds.SOMETIMEAFTER:
+#                 manage_sa_compilation(c.gd1, c.gd2, c.monitoring_atom, action)
+#             elif c.kind == ds.ALWAYSNEXT:
+#                 manage_ax_compilation(c.gd1, c.gd2, c.monitoring_atom, action)
+#             elif c.kind == ds.PATTERN:
+#                 manage_pattern_compilation(c.gd1, c.monitoring_atoms, action)
 
-        if ds.FALSE() not in action.precondition:
-            A_prime.append(action)
+#         if ds.FALSE() not in action.precondition:
+#             A_prime.append(action)
 
-    request_atoms = []
-    got_sometime_atoms = []
-    got_sometime_after_atoms = []
-    stage_atoms_goals = []
-    for c in C:
-        if c.kind == ds.SOMETIME:
-            got_sometime_atoms.append(ds.Literal(c.monitoring_atom, False))
-        elif c.kind == ds.SOMETIMEAFTER:
-            got_sometime_after_atoms.append(ds.Literal(c.monitoring_atom, False))
-        elif c.kind == ds.ALWAYSNEXT:
-            request_atoms.append(ds.Literal(c.monitoring_atom, True))
-        elif c.kind == ds.PATTERN:
-            stage_atoms_goals.append(ds.Literal(c.monitoring_atoms[len(c.monitoring_atoms)-1], False))
-    G_prime = ds.And([G, ds.And(got_sometime_atoms), ds.And(got_sometime_after_atoms), ds.And(stage_atoms_goals)]).simplified()
-    return F + monitoring_atoms, A_prime, I + got_sometime_after_atoms, G_prime
+#     request_atoms = []
+#     got_sometime_atoms = []
+#     got_sometime_after_atoms = []
+#     stage_atoms_goals = []
+#     for c in C:
+#         if c.kind == ds.SOMETIME:
+#             got_sometime_atoms.append(ds.Literal(c.monitoring_atom, False))
+#         elif c.kind == ds.SOMETIMEAFTER:
+#             got_sometime_after_atoms.append(ds.Literal(c.monitoring_atom, False))
+#         elif c.kind == ds.ALWAYSNEXT:
+#             request_atoms.append(ds.Literal(c.monitoring_atom, True))
+#         elif c.kind == ds.PATTERN:
+#             stage_atoms_goals.append(ds.Literal(c.monitoring_atoms[len(c.monitoring_atoms)-1], False))
+#     G_prime = ds.And([G, ds.And(request_atoms), ds.And(got_sometime_atoms), ds.And(got_sometime_after_atoms), ds.And(stage_atoms_goals)]).simplified()
+#     return F + monitoring_atoms, A_prime, I + got_sometime_after_atoms, G_prime
 
 
 def get_all_actions(cond):
